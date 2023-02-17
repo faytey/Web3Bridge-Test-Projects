@@ -3,6 +3,8 @@ import { ethers } from "hardhat";
 async function main() {
   //uniswap router address
   const ROUTER = "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D";
+  // UNISWAP V2 FACTORY ADDRESS
+  const FACTORY = "0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f";
   //dai token address
   const DAI = "0x6B175474E89094C44Da98b954EedeAC495271d0F";
   //uni token address
@@ -16,7 +18,7 @@ async function main() {
   let time = 1686588399;
 
   const Uniswap = await ethers.getContractAt("IUniswapV2Router01", ROUTER);
-
+  
   const helpers = require("@nomicfoundation/hardhat-network-helpers");
   await helpers.impersonateAccount(DAIHolder);
   const impersonatedSigner = await ethers.getSigner(DAIHolder);
@@ -57,13 +59,32 @@ console.log(`Dai balance after ethereum ${holderBalance2}`);
 console.log(`your ethereum balance is ${ethers.provider.getBalance(impersonatedSigner.address)}`);
 
 // QUESTION 3: REMOVE LIQUIDITY
-await Uniswap.connect(impersonatedSigner).removeLiquidity(DAI,UNI,10,0,0,impersonatedSigner.address,time);
+const UniswapFactory = await ethers.getContractAt("IUniswapV2Factory", FACTORY);
+  console.log(`Contract factory address is ${UniswapFactory.address}`);
+
+  const factory = await UniswapFactory.getPair(DAI,UNI);
+
+  const pair = await ethers.getContractAt("IUniswapV2Pair", factory);
+  console.log(`Paired factory address is ${pair.address}`);
+
+  const pairBalance = await pair.balanceOf(DAIHolder);
+
+  console.log(`Pair balance is ${pairBalance}`);
+
+  await pair.connect(impersonatedSigner).approve(ROUTER,amount1);
+
+
+await Uniswap.connect(impersonatedSigner).removeLiquidity(DAI,UNI,pairBalance,0,0,impersonatedSigner.address,time);
 
 const holderBalance3 = await DaiContract.balanceOf(DAIHolder);
 console.log(`Dai balance after ${holderBalance3}`);
 
 const uniBalance2 = await UniContract.balanceOf(DAIHolder);
 console.log(`uniBalance after ${uniBalance2}`);
+
+const pairBalance1 = await pair.balanceOf(DAIHolder);
+
+  console.log(`Pair balance is ${pairBalance1}`);
 
   }
 

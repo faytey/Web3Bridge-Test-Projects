@@ -54,3 +54,12 @@ interface IUniswapV2Router01 {
         uint256 deadline
     ) external returns (uint256 amountToken, uint256 amountETH);
 }
+
+interface IUniswapV2Factory {
+    function getPair(address tokenA, address tokenB) external view returns (address pair);
+}
+
+interface IUniswapV2Pair {
+    function balanceOf(address owner) external view returns (uint);
+    function approve(address spender, uint value) external returns (bool);
+}
