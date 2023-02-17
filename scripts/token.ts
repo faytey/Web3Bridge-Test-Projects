@@ -48,12 +48,22 @@ async function main() {
   console.log(`uniBalance after ${uniBalance1}`);
   
 // QUESTION 2: ADD LIQUIDITY ETH
-await Uniswap.connect(impersonatedSigner).addLiquidityETH(DAI,amount1,0,0,impersonatedSigner.address,time, {value: 1});
+console.log(`your ethereum balance is ${ethers.provider.getBalance(impersonatedSigner.address)}`);
+
+await Uniswap.connect(impersonatedSigner).addLiquidityETH(DAI,amount1,0,0,impersonatedSigner.address,time, {value: 10});
 
 const holderBalance2 = await DaiContract.balanceOf(DAIHolder);
 console.log(`Dai balance after ethereum ${holderBalance2}`);
+console.log(`your ethereum balance is ${ethers.provider.getBalance(impersonatedSigner.address)}`);
 
 // QUESTION 3: REMOVE LIQUIDITY
+await Uniswap.connect(impersonatedSigner).removeLiquidity(DAI,UNI,10,0,0,impersonatedSigner.address,time);
+
+const holderBalance3 = await DaiContract.balanceOf(DAIHolder);
+console.log(`Dai balance after ${holderBalance3}`);
+
+const uniBalance2 = await UniContract.balanceOf(DAIHolder);
+console.log(`uniBalance after ${uniBalance2}`);
 
   }
 
