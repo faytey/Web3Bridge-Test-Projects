@@ -1,13 +1,4 @@
-# Sample Hardhat Project
-
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
-
-Try running some of the following tasks:
-
-```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat run scripts/deploy.ts
-```
+# WEB3BRIDGE TESTS
+## 1. NFT CONTRACT
+NFT Contract deployed to https://goerli.etherscan.io/address/0xAd779eb72ddC407804f9Bd6a20813eDE79058bC5
+View my Nft on opensea testnet here https://testnets.opensea.io/assets/goerli/0xad779eb72ddc407804f9bd6a20813ede79058bc5/0
