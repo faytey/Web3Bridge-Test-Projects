@@ -6,7 +6,7 @@ dotenv.config();
 const config: HardhatUserConfig = {
   solidity: "0.8.17",
 
-  defaultNetwork: "goerli",
+  // defaultNetwork: "goerli",
   networks: {
     hardhat: {
       forking:{
